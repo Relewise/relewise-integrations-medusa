@@ -1,8 +1,8 @@
 {
-  "name": ".\\relewise-integrations-medusa\\",
+  "name": "@relewise/medusa",
   "version": "0.0.1",
-  "description": "A starter for Medusa plugins.",
-  "author": "Medusa (https://medusajs.com)",
+  "description": "A Relewise integration for Medusa",
+  "author": "Relewise (https://relewise.com)",
   "license": "MIT",
   "files": [
     ".medusa/server"
