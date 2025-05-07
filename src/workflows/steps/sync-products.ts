@@ -12,6 +12,6 @@ export const syncProductsStep = createStep("sync-products", async ({ products }:
 
     await relewiseService.Sync(products);
 
-    return new StepResponse(undefined, {products});
+    return new StepResponse();
   }
 )

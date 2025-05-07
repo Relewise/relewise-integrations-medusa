@@ -6,7 +6,7 @@ type RelewiseOptions = {
   datasetId: string;
   apiKey: string;
   serverUrl: string;
-  language: string | null;
+  language: string;
 }
 
 class RelewiseService {
@@ -19,6 +19,8 @@ class RelewiseService {
   }
 
   async Sync(products: ProductDTO[]) {
+    if (!this.options.language) throw new Error("Relewise Plugin was not provided a language.")
+      
     const date: number = Date.now();
 
     const productUpdates: Trackable[] = [];
@@ -28,7 +30,7 @@ class RelewiseService {
         id: product.id,
         productUpdateKind: 'ReplaceProvidedProperties',
       })
-      .displayName([{ language: this.options.language ?? "en", value: product.title }])
+      .displayName([{ language: this.options.language, value: product.title }])
       .data({ 'ImportedAt': DataValueFactory.number(date) });
 
       productUpdates.push(productUpdate.build());
@@ -38,13 +40,8 @@ class RelewiseService {
       language: null,
       currency: null,
       filters(filterBuilder) {
-          filterBuilder
-              .addProductDataFilter(
-                  'ImportedAt',
-                  (conditionBuilder) => conditionBuilder.addEqualsCondition(
-                      DataValueFactory.number(date), true),
-                  true,
-              );
+        filterBuilder
+          .addProductDataFilter('ImportedAt', (conditionBuilder) => conditionBuilder.addEqualsCondition(DataValueFactory.number(date)));
       },
       productUpdateKind: 'Disable',
     });
@@ -55,12 +52,8 @@ class RelewiseService {
       language: null,
       currency: null,
       filters(filterBuilder) {
-          filterBuilder
-              .addProductDataFilter(
-                  'ImportedAt',
-                  (conditionBuilder) => conditionBuilder.addEqualsCondition(
-                      DataValueFactory.number(date), false),
-              );
+        filterBuilder
+          .addProductDataFilter('ImportedAt', (conditionBuilder) => conditionBuilder.addEqualsCondition(DataValueFactory.number(date)));
       },
       productUpdateKind: 'Enable',
     });

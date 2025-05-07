@@ -12,12 +12,6 @@ The first time you want to develop on the plugin, you need to publish the packag
 npx medusa plugin:publish
 ```
 
-Run the following command from a Medusa Application to install the locally published plugin.
-
-```W
-npx medusa plugin:add @relewise/medusa
-```
-
 The plugin requires som options that we recommended you to store in a `.env` file.
 
 ```W
@@ -28,7 +22,15 @@ RELEWISE_SERVER_URL=
 
 Fill the `RELEWISE_DATASET_ID`, `RELEWISE_API_KEY`, `RELEWISE_SERVER_URL` with your dataset, api-key and server-url found at [My.Relewise](https://my.relewise.com/developer-settings).
 
+Run the following command from a Medusa Application to install the locally published plugin.
+
+```W
+npx medusa plugin:add @relewise/medusa
+```
+
 Remember to also add it to `plugins` in the `medusa-config.ts`.
+
+Note that providing a language is also required!
 
 ```W
 module.exports = defineConfig({
@@ -40,21 +42,11 @@ module.exports = defineConfig({
         datasetId: process.env.RELEWISE_DATASET_ID!,
         apiKey: process.env.RELEWISE_API_KEY!,
         serverUrl: process.env.RELEWISE_SERVER_URL!,
+        language: "en"
       },
     },
   ],
 })
-```
-
-By default we map products to Relewise with `en` as the language.
-The language can be configured by setting the language option.
-
-```W
-  // ..
-  options: {
-    // ...
-    language: "some other language",
-  }
 ```
 
 While developing you can run the following command to watch for changes.
