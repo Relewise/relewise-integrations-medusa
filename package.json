@@ -1,6 +1,6 @@
 {
   "name": "@relewise/medusa",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha",
   "description": "A Relewise integration for Medusa",
   "author": "Relewise (https://relewise.com)",
   "license": "MIT",
@@ -16,11 +16,12 @@
     "./*": "./.medusa/server/src/*.js"
   },
   "keywords": [
+    "medusa-plugin-integration",
+    "medusa-v2",
+    "medusa-plugin-search",
     "medusa",
     "plugin",
-    "medusa-plugin-other",
-    "medusa-plugin",
-    "medusa-v2"
+    "medusa-plugin"
   ],
   "scripts": {
     "build": "medusa plugin:build",
