@@ -20,7 +20,7 @@ class RelewiseService {
 
   async Sync(products: ProductDTO[]) {
     if (!this.options.language) throw new Error("Relewise Plugin was not provided a language.")
-      
+
     const date: number = Date.now();
 
     const productUpdates: Trackable[] = [];
@@ -37,8 +37,6 @@ class RelewiseService {
     });
 
     const disableNonUpdatedProducts = new ProductAdministrativeActionBuilder({
-      language: null,
-      currency: null,
       filters(filterBuilder) {
         filterBuilder
           .addProductDataFilter('ImportedAt', (conditionBuilder) => conditionBuilder.addEqualsCondition(DataValueFactory.number(date)));
@@ -49,8 +47,6 @@ class RelewiseService {
     productUpdates.push(disableNonUpdatedProducts.build());
 
     const enableUpdatedProducts = new ProductAdministrativeActionBuilder({
-      language: null,
-      currency: null,
       filters(filterBuilder) {
         filterBuilder
           .addProductDataFilter('ImportedAt', (conditionBuilder) => conditionBuilder.addEqualsCondition(DataValueFactory.number(date)));
