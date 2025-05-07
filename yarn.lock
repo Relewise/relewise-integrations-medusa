@@ -3954,6 +3954,16 @@
     "@react-types/overlays" "^3.8.12"
     "@react-types/shared" "^3.27.0"
 
+"@relewise/client@>=1.22.0-0 <3.0.0":
+  version "2.8.0"
+  resolved "https://registry.npmjs.org/@relewise/client/-/client-2.8.0.tgz"
+  integrity sha512-xCv8AULSXVXzbW6THkK5HDoUwyP0rllf/3Jj4YpGjFPs0Hi7+63qbUDvn03msWIw/zBx9l3CV4MlflCNUQRj3Q==
+
+"@relewise/integrations@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@relewise/integrations/-/integrations-1.0.3.tgz"
+  integrity sha512-GVdt/WZsEE7T/o0uiZkWzYsfu3pIXjRWS1ds9qn2UKxflXpbIxgT0UGSEoyLm1sb8ohzg6AJs3F/GnIduSSWjw==
+
 "@remix-run/router@1.13.1":
   version "1.13.1"
   resolved "https://registry.npmjs.org/@remix-run/router/-/router-1.13.1.tgz"

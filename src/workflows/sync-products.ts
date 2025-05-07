@@ -4,7 +4,7 @@ import { syncProductsStep, SyncProductsStepInput } from "./steps/sync-products"
 
 export const syncProductsWorkflow = createWorkflow("sync-products", () => {
     const products = getAllProductsStep({
-      select: ["title"],
+      select: ["id", "title"],
     });
 
     syncProductsStep({
