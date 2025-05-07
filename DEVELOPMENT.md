@@ -25,7 +25,8 @@ RELEWISE_DATASET_ID=
 RELEWISE_API_KEY=
 RELEWISE_SERVER_URL=
 ```
-Fill the `RELEWISE_DATASET_ID`, `RELEWISE_API_KEY`, `RELEWISE_SERVER_URL` with your dataset, api-key and server-url found at [My.Relewise](https://my.relewise.com/developer-settings). 
+
+Fill the `RELEWISE_DATASET_ID`, `RELEWISE_API_KEY`, `RELEWISE_SERVER_URL` with your dataset, api-key and server-url found at [My.Relewise](https://my.relewise.com/developer-settings).
 
 Remember to also add it to `plugins` in the `medusa-config.ts`.
 
@@ -38,11 +39,22 @@ module.exports = defineConfig({
       options: {
         datasetId: process.env.RELEWISE_DATASET_ID!,
         apiKey: process.env.RELEWISE_API_KEY!,
-        serverUrl: process.env.RELEWISE_SERVER_URL!
+        serverUrl: process.env.RELEWISE_SERVER_URL!,
       },
     },
   ],
 })
+```
+
+By default we map products to Relewise with `en` as the language.
+The language can be configured by setting the language option.
+
+```W
+  // ..
+  options: {
+    // ...
+    language: "some other language",
+  }
 ```
 
 While developing you can run the following command to watch for changes.

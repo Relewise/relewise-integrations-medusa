@@ -6,13 +6,16 @@ type RelewiseOptions = {
   datasetId: string;
   apiKey: string;
   serverUrl: string;
+  language: string | null;
 }
 
 class RelewiseService {
   private integrator: Integrator;
+  private options: RelewiseOptions;
 
   constructor({}, options: RelewiseOptions) {
     this.integrator = new Integrator(options.datasetId, options.apiKey, { serverUrl: options.serverUrl })
+    this.options = options;
   }
 
   async Sync(products: ProductDTO[]) {
@@ -25,7 +28,7 @@ class RelewiseService {
         id: product.id,
         productUpdateKind: 'ReplaceProvidedProperties',
       })
-      .displayName([{ language: "en", value: product.title }])
+      .displayName([{ language: this.options.language ?? "en", value: product.title }])
       .data({ 'ImportedAt': DataValueFactory.number(date) });
 
       productUpdates.push(productUpdate.build());
