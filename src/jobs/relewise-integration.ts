@@ -13,5 +13,5 @@ export default async function relewiseIntegrationJob(container: MedusaContainer)
 
 export const config = {
   name: "Relewise Integration",
-  schedule: "0 * * * *", // Once every hour
+  schedule: "* * * * *", // Once every hour
 }

@@ -33,7 +33,7 @@ const RelewisePage = () => {
           onClick={handleSync}
           isLoading={isPending}
         >
-          Sync Data to Relewise
+          Sync all Products to Relewise
         </Button>
       </div>
     </Container>
