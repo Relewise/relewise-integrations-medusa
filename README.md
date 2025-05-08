@@ -5,7 +5,7 @@
 </p>
 
 ---
-# Relewise plugin for Medusa
+# Relewise plugin for Medusa [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) [![npm version](https://badge.fury.io/js/@relewise%2Fmedusa.svg)](https://badge.fury.io/js/@relewise%2Fmedusa) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Relewise/relewise-integrations-medusa/pulls)
 Relewise is a modern personalization and search engine that creates the truly personalized experiences your customers expect.
 
 The plugin helps integrating products into Relewise with a single click and keeping products in sync every hour!
