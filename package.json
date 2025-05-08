@@ -29,7 +29,7 @@
     "prepublishOnly": "medusa plugin:build"
   },
   "devDependencies": {
-    "@medusajs/admin-sdk": "2.4.0",
+    "@medusajs/admin-sdk": "^2.7.0",
     "@medusajs/cli": "2.4.0",
     "@medusajs/framework": "2.4.0",
     "@medusajs/icons": "2.4.0",
@@ -56,7 +56,7 @@
     "yalc": "^1.0.0-pre.53"
   },
   "peerDependencies": {
-    "@medusajs/admin-sdk": "2.4.0",
+    "@medusajs/admin-sdk": "^2.7.0",
     "@medusajs/cli": "2.4.0",
     "@medusajs/framework": "2.4.0",
     "@medusajs/icons": "2.4.0",
