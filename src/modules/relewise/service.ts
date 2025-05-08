@@ -14,7 +14,7 @@ class RelewiseService {
   private options: RelewiseOptions;
 
   constructor({}, options: RelewiseOptions) {
-    if (!this.options.language) throw new Error("Relewise Plugin was not provided a language.")
+    if (!options.language) throw new Error("Relewise Plugin was not provided a language.")
 
     this.integrator = new Integrator(options.datasetId, options.apiKey, { serverUrl: options.serverUrl })
     this.options = options;
