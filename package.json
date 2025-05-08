@@ -74,6 +74,6 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@relewise/integrations": "^1.0.3"
+    "@relewise/integrations": "<2.0.0"
   }
 }
