@@ -1537,17 +1537,23 @@
     tailwindcss "^3.3.6"
     vite "^5.2.11"
 
-"@medusajs/admin-sdk@2.4.0":
-  version "2.4.0"
-  resolved "https://registry.npmjs.org/@medusajs/admin-sdk/-/admin-sdk-2.4.0.tgz"
-  integrity sha512-Iq+HDRFLyJcZoYhgA/GNUzSmCbKmzaCFS1reXbrm1mks8U+vQqwyDNS8pIOyAvbA+fsmueqLbJ6GjEbOPxwWxg==
+"@medusajs/admin-sdk@^2.7.0":
+  version "2.7.1"
+  resolved "https://registry.npmjs.org/@medusajs/admin-sdk/-/admin-sdk-2.7.1.tgz"
+  integrity sha512-eGOB0TZfPMiRlQAaheXKeMEe/bhvrrdJX3DAvvyH+UgF4c8XWuqxVmbrdAe0gLHJQ1JcVYpquYSWhnsncFZcfA==
   dependencies:
-    "@medusajs/admin-shared" "~2.4.0"
+    "@medusajs/admin-shared" "2.7.1"
+    zod "3.22.4"
 
-"@medusajs/admin-shared@~2.4.0", "@medusajs/admin-shared@2.4.0":
+"@medusajs/admin-shared@2.4.0":
   version "2.4.0"
   resolved "https://registry.npmjs.org/@medusajs/admin-shared/-/admin-shared-2.4.0.tgz"
   integrity sha512-AIV9/eiPoK4f4EEp6UlvSq4qqY3jF60z9Av8IPf5gwXQRdcO4cJsnKf0w8zkHwEOl5yQ4Zkosc9yCKT8S2oKTg==
+
+"@medusajs/admin-shared@2.7.1":
+  version "2.7.1"
+  resolved "https://registry.npmjs.org/@medusajs/admin-shared/-/admin-shared-2.7.1.tgz"
+  integrity sha512-CvFip6DNS6j5tbU695XAcQddV/SmSgegt4DPKBfVuEj1bdlFu8mY6La//ZCL3hqSa0S/Tf/fdvvf6DU9kAKgLg==
 
 "@medusajs/admin-vite-plugin@2.4.0":
   version "2.4.0"
@@ -3959,7 +3965,7 @@
   resolved "https://registry.npmjs.org/@relewise/client/-/client-2.8.0.tgz"
   integrity sha512-xCv8AULSXVXzbW6THkK5HDoUwyP0rllf/3Jj4YpGjFPs0Hi7+63qbUDvn03msWIw/zBx9l3CV4MlflCNUQRj3Q==
 
-"@relewise/integrations@^1.0.3":
+"@relewise/integrations@<2.0.0":
   version "1.0.3"
   resolved "https://registry.npmjs.org/@relewise/integrations/-/integrations-1.0.3.tgz"
   integrity sha512-GVdt/WZsEE7T/o0uiZkWzYsfu3pIXjRWS1ds9qn2UKxflXpbIxgT0UGSEoyLm1sb8ohzg6AJs3F/GnIduSSWjw==
@@ -9521,7 +9527,7 @@ yoctocolors-cjs@^2.1.2:
   resolved "https://registry.npmjs.org/yoctocolors-cjs/-/yoctocolors-cjs-2.1.2.tgz"
   integrity sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==
 
-zod@^3.22, zod@3.22.4:
+zod@3.22.4:
   version "3.22.4"
   resolved "https://registry.npmjs.org/zod/-/zod-3.22.4.tgz"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
