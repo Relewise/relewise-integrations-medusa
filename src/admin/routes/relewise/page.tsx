@@ -1,9 +1,12 @@
 import { Container, Heading, Button, toast } from "@medusajs/ui"
 import { useMutation } from "@tanstack/react-query"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { sdk } from "../../lib/sdk"
 import { defineRouteConfig } from "@medusajs/admin-sdk"
 
-const RelewisePage = () => {
+const queryClient = new QueryClient()
+
+const RelewiseContent = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: () => 
       sdk.client.fetch("/admin/relewise/sync", {
@@ -37,6 +40,14 @@ const RelewisePage = () => {
         </Button>
       </div>
     </Container>
+  )
+}
+
+const RelewisePage = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RelewiseContent />
+    </QueryClientProvider>
   )
 }
 
