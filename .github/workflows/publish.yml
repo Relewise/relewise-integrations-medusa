@@ -1,0 +1,41 @@
+name: Publish to NPM
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.com/
+          scope: '@relewise'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build plugin
+        run: npx medusa plugin:build
+
+      - name: Determine NPM Tag
+        id: determine-tag
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          TAG="latest"
+          if [[ "$VERSION" == *"-alpha"* ]]; then
+            TAG="alpha"
+          elif [[ "$VERSION" == *"-beta"* ]]; then
+            TAG="beta"
+          fi
+          echo "NPM_TAG=$TAG" >> $GITHUB_ENV
+          echo "Publishing version $VERSION with tag $TAG"
+
+      - name: Publish to NPM
+        run: npm publish --access public --tag $NPM_TAG
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
