@@ -1,6 +1,6 @@
 {
   "name": "@relewise/medusa",
-  "version": "0.0.5-alpha",
+  "version": "1.0.0",
   "description": "A Relewise integration for Medusa",
   "author": "Relewise (https://relewise.com)",
   "license": "MIT",
