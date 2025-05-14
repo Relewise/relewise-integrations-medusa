@@ -7,7 +7,7 @@ export type SyncProductsStepInput = {
     products: ProductDTO[]
 }
   
-export const syncProductsStep = createStep("sync-products", async ({ products }: SyncProductsStepInput, { container }) => {
+export const syncProductsStep = createStep({ name: "sync-products", async: true }, async ({ products }: SyncProductsStepInput, { container }) => {
     const relewiseService: RelewiseService = container.resolve(RELEWISE_MODULE);
 
     await relewiseService.Sync(products);
