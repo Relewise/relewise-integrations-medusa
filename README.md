@@ -49,6 +49,10 @@ module.exports = defineConfig({
   ],
 })
 ```
+## Storing workflow executions
+To store workflow executions, you need to have redis installed and running.
+
+You can read how to do so in the [Medusa Documentation](https://docs.medusajs.com/resources/infrastructure-modules/workflow-engine/redis).
 
 ## Contributing
 
