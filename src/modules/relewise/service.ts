@@ -164,6 +164,8 @@ class RelewiseService {
       productUpdates.push(productUpdate.build());
     });
 
+    this.logger.info(`Sending ${productUpdates.length} product updates to Relewise.`)
+
     const disableNonUpdatedProducts = new ProductAdministrativeActionBuilder({
       filters(filterBuilder) {
         filterBuilder
