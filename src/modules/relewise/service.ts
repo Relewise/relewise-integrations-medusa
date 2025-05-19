@@ -1,14 +1,15 @@
-import { Logger, ProductDTO } from "@medusajs/framework/types";
+import { Logger } from "@medusajs/framework/types";
 import { Integrator, ProductAdministrativeActionBuilder, ProductUpdateBuilder, ProductVariantBuilder } from "@relewise/integrations"
 import { DataValueFactory, Trackable } from "@relewise/client"
-import { ProductWithVariantsAndPricesDTO } from "../../types/ProductWithVariantsAndPricesDTO";
-import { VariantWithPricesDTO } from "../../types/VariantWithPricesDTO";
+import { ExtendedMedusaProduct } from "../../types/ProductWithVariantsAndPricesDTO";
+import { ProductVariantPrices } from "../../workflows/steps/get-all-products-with-calculated-prices";
 
 type RelewiseOptions = {
   datasetId: string;
   apiKey: string;
   serverUrl: string;
   language: string;
+  currencies: string[];
 }
 
 type InjectedDependencies = {
@@ -17,29 +18,39 @@ type InjectedDependencies = {
 
 class RelewiseService {
   private integrator: Integrator;
-  private options: RelewiseOptions;
+  public options: RelewiseOptions;
   private logger: Logger;
 
   constructor({ logger }: InjectedDependencies, options: RelewiseOptions) {
     if (!options.language) throw new Error("Relewise Plugin was not provided a language.")
+    if (options.currencies.length === 0) throw new Error("Relewise Plugin was not provided any currencies.")
 
     this.integrator = new Integrator(options.datasetId, options.apiKey, { serverUrl: options.serverUrl })
     this.options = options;
     this.logger = logger;
   }
 
-  async Sync(products: ProductWithVariantsAndPricesDTO[], variantPrices: any) {
-    this.logger.info("Medusa Products: " + JSON.stringify(products, null, 2));
-    this.logger.info("Medusa variantPrices: " + JSON.stringify(variantPrices, null, 2));
+  async Sync(products: ExtendedMedusaProduct[], variantPrices: ProductVariantPrices) {
     const date: number = Date.now();
 
     const productUpdates: Trackable[] = [];
     
     products.forEach(product => {
+      
+      const variantWithLowestPriceInFirstCurrency = Object.entries(variantPrices[product.id])
+        .map(([variantId, prices]) => ({
+          variantId,
+          price: prices.find(p => p.currency_code.toLowerCase() === this.options.currencies[0])
+        }))
+        .filter(v => v.price)
+        .sort((a, b) => (a.price?.calculated_amount ?? 0) - (b.price?.calculated_amount ?? 0))[0]?.variantId;
+
       const productUpdate = new ProductUpdateBuilder({
         id: product.id,
         productUpdateKind: 'ReplaceProvidedProperties',
       })
+      .salesPrice(variantPrices[product.id][variantWithLowestPriceInFirstCurrency].map(price => ({ amount: price.calculated_amount, currency: price.currency_code })))
+      .listPrice(variantPrices[product.id][variantWithLowestPriceInFirstCurrency].map(price => ({ amount: price.original_amount, currency: price.currency_code })))
       .displayName([{ language: this.options.language, value: product.title }])
       .data({ 
         'ImportedAt': DataValueFactory.number(date),
@@ -98,11 +109,56 @@ class RelewiseService {
           : null,
         'CreatedAt': DataValueFactory.string(typeof product.created_at === 'string' ? product.created_at : product.created_at.toISOString()),
         'UpdatedAt': DataValueFactory.string(new Date(product.updated_at).toISOString()),
+        'SalesChannels': DataValueFactory.stringCollection(product.sales_channels.map(x => x.name)),
+        'Images': DataValueFactory.stringCollection(product.images.map(x => x.url)),
       })
-      .variants(product.variants?.map(variant => new ProductVariantBuilder({ id: variant.id })
+      .variants(product.variants.map(variant => new ProductVariantBuilder({ id: variant.id })
         .displayName([{ language: this.options.language, value: variant.title }])
-        .salesPrice((variant as VariantWithPricesDTO).prices?.map(price => ({ amount: price.amount as number, currency: price.currency_code ?? "" })))
-        .listPrice((variant as VariantWithPricesDTO).prices?.map(price => ({ amount: price.amount as number, currency: price.currency_code ?? "" })))
+        .salesPrice(variantPrices[product.id][variant.id].map(price => ({ amount: price.calculated_amount, currency: price.currency_code })))
+        .listPrice(variantPrices[product.id][variant.id].map(price => ({ amount: price.original_amount, currency: price.currency_code })))
+        .data({
+          'Sku': variant.sku
+            ? DataValueFactory.string(variant.sku)
+            : null,
+          'AllowBackorder': DataValueFactory.boolean(variant.allow_backorder),
+          'ManageInventory': DataValueFactory.boolean(variant.manage_inventory),
+          'HSCode': variant.hs_code
+            ? DataValueFactory.string(variant.hs_code)
+            : null,
+          'OriginCountry': variant.origin_country
+            ? DataValueFactory.string(variant.origin_country)
+            : null,
+          'MIDCode': variant.mid_code
+            ? DataValueFactory.string(variant.mid_code)
+            : null,
+          'Weight': variant.weight
+            ? DataValueFactory.number(variant.weight)
+            : null,
+          'Length': variant.length
+            ? DataValueFactory.number(variant.length)
+            : null,
+          'Height': variant.height
+            ? DataValueFactory.number(variant.height)
+            : null,
+          'Width': variant.width
+            ? DataValueFactory.number(variant.width)
+            : null,
+          'Material': variant.material
+            ? DataValueFactory.multilingual([{ language: this.options.language, value: variant.material }])
+            : null,
+          'VariantRank': variant.variant_rank
+            ? DataValueFactory.number(variant.variant_rank)
+            : null,
+          'EAN': variant.ean
+            ? DataValueFactory.string(variant.ean)
+            : null,
+          'UPC': variant.upc
+            ? DataValueFactory.string(variant.upc)
+            : null,
+          'Barcode': variant.barcode
+            ? DataValueFactory.string(variant.barcode)
+            : null,
+        })
         .build()));
 
       productUpdates.push(productUpdate.build());
@@ -127,8 +183,6 @@ class RelewiseService {
     });
   
     productUpdates.push(enableUpdatedProducts.build());
-
-    // this.logger.info("Medusa Products: " + JSON.stringify(productUpdates, null, 2));
 
     await this.integrator.batch(productUpdates);
   }

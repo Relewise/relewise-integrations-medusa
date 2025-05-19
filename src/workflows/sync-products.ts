@@ -1,26 +1,12 @@
 import { createWorkflow, WorkflowResponse } from "@medusajs/framework/workflows-sdk"
-import { getAllProductsStep, getVariantPriceSetsStep, useQueryGraphStep } from "@medusajs/medusa/core-flows"
-import { syncProductsStep } from "./steps/sync-products"
-import { ProductWithVariantsAndPricesDTO } from "../types/ProductWithVariantsAndPricesDTO";
+import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
+import { ExtendedMedusaProduct } from "../types/ProductWithVariantsAndPricesDTO";
 import { QueryContext } from "@medusajs/framework/utils";
+import { getAllProductsWithCalculatedPricesStep } from "./steps/get-all-products-with-calculated-prices";
+import { syncProductsStep } from "./steps/sync-products";
 
 export const syncProductsWorkflow = createWorkflow("sync-products", () => {
-    // const products = getAllProductsStep({
-    //   select: [
-    //     "*",
-    //     "categories.*",
-    //     "images.*",
-    //     "tags.*",
-    //     "variants.*",
-    //     "variants.options*",
-    //     "variants.prices*",
-    //     "options.*",
-    //     "collection.*",
-    //     "type.*"
-    //   ],
-    // });
-    
-    const productsQuery = useQueryGraphStep({
+    const products = useQueryGraphStep({
       entity: "product",
       fields: [
         "*",
@@ -28,6 +14,8 @@ export const syncProductsWorkflow = createWorkflow("sync-products", () => {
         "variants.*",
         "variants.prices.*",
         "variants.calculated_price.*",
+        "variants.inventory_items.*",
+        "images.*",
       ],
       context: {
         variants: {
@@ -36,18 +24,15 @@ export const syncProductsWorkflow = createWorkflow("sync-products", () => {
           }),
         },
       },
-    }) as { data: ProductWithVariantsAndPricesDTO[] }
+    }) as { data: ExtendedMedusaProduct[] }
+    
+    const varientPrices = getAllProductsWithCalculatedPricesStep();
 
-    const  variantPrices  = getVariantPriceSetsStep({
-      variantIds: productsQuery.data.flatMap(product =>
-      product.variants.map(variant => variant.id)
-    )
-    })
-
-    syncProductsStep({ products: productsQuery.data, variantPrices: variantPrices });
+    syncProductsStep({ products: products.data, variantPrices: varientPrices });
 
     return new WorkflowResponse({
-      products: productsQuery.data,
+      products: products,
+      variantPrices: varientPrices
     });
   }
 )
