@@ -26,13 +26,13 @@ export const syncProductsWorkflow = createWorkflow("sync-products", () => {
       },
     }) as { data: ExtendedMedusaProduct[] }
     
-    const varientPrices = getAllProductsWithCalculatedPricesStep();
+    const variantPrices = getAllProductsWithCalculatedPricesStep();
 
-    syncProductsStep({ products: products.data, variantPrices: varientPrices });
+    syncProductsStep({ products: products.data, variantPrices: variantPrices });
 
     return new WorkflowResponse({
       products: products,
-      variantPrices: varientPrices
+      variantPrices: variantPrices
     });
   }
 )
