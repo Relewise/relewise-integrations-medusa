@@ -1,6 +1,5 @@
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 import RelewiseService from "../../modules/relewise/service"
-import { ProductDTO } from "@medusajs/framework/types"
 import { RELEWISE_MODULE } from "../../modules/relewise"
 import { ExtendedMedusaProduct } from "../../types/ProductWithVariantsAndPricesDTO"
 

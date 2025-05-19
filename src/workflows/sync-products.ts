@@ -28,7 +28,7 @@ export const syncProductsWorkflow = createWorkflow({
               }),
             },
           },
-        }) as { data: ExtendedMedusaProduct[] }
+        }) as { data: ExtendedMedusaProduct[] };
         
       const variantPrices = getAllProductsWithCalculatedPricesStep();
 
