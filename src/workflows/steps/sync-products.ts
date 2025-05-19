@@ -9,7 +9,7 @@ export type SyncProductsStepInput = {
     variantPrices: any
 }
   
-export const syncProductsStep = createStep("sync-products", async ({ products, variantPrices }: SyncProductsStepInput, { container }) => {
+export const syncProductsStep = createStep({ name: "sync-products", async: true }, async ({ products, variantPrices }: SyncProductsStepInput, { container }) => {
     const relewiseService: RelewiseService = container.resolve(RELEWISE_MODULE);
 
     await relewiseService.Sync(products, variantPrices);
