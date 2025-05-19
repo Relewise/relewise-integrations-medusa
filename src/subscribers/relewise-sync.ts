@@ -13,7 +13,7 @@ import {
   
     const workflow = await syncProductsWorkflow(container).run();
   
-    logger.info(`Successfully synced ${workflow.result.products} products to Relewise`);
+    logger.info(`Successfully synced ${workflow.result.products.data.length} products to Relewise`);
   }
   
   export const config: SubscriberConfig = {
