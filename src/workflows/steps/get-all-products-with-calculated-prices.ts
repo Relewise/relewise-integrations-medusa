@@ -39,6 +39,9 @@ export const getAllProductsWithCalculatedPricesStep = createStep(
         }
         
         product.variants.forEach(variant => {
+          if (!variant.calculated_price) 
+            return;
+
           if (!temp[product.id][variant.id]) {
             temp[product.id][variant.id] = [];
           }

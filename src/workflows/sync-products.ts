@@ -20,6 +20,7 @@ export const syncProductsWorkflow = createWorkflow({
             "variants.calculated_price.*",
             "variants.inventory_items.*",
             "images.*",
+            "categories.*",
           ],
           context: {
             variants: {

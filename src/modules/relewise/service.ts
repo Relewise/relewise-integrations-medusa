@@ -36,7 +36,6 @@ class RelewiseService {
     const productUpdates: Trackable[] = [];
     
     products.forEach(product => {
-      
       const variantWithLowestPriceInFirstCurrency = Object.entries(variantPrices[product.id])
         .map(([variantId, prices]) => ({
           variantId,
@@ -44,13 +43,15 @@ class RelewiseService {
         }))
         .filter(v => v.price)
         .sort((a, b) => (a.price?.calculated_amount ?? 0) - (b.price?.calculated_amount ?? 0))[0]?.variantId;
-
+        
       const productUpdate = new ProductUpdateBuilder({
         id: product.id,
         productUpdateKind: 'ReplaceProvidedProperties',
       })
-      .salesPrice(variantPrices[product.id][variantWithLowestPriceInFirstCurrency].map(price => ({ amount: price.calculated_amount, currency: price.currency_code })))
-      .listPrice(variantPrices[product.id][variantWithLowestPriceInFirstCurrency].map(price => ({ amount: price.original_amount, currency: price.currency_code })))
+      .salesPrice(variantPrices[product.id][variantWithLowestPriceInFirstCurrency]
+        ?.map(price => ({ amount: price.calculated_amount, currency: price.currency_code })) ?? [])
+      .listPrice(variantPrices[product.id][variantWithLowestPriceInFirstCurrency]
+        ?.map(price => ({ amount: price.original_amount, currency: price.currency_code })) ?? [])
       .displayName([{ language: this.options.language, value: product.title }])
       .data({ 
         'ImportedAt': DataValueFactory.number(date),
@@ -119,8 +120,10 @@ class RelewiseService {
       })
       .variants(product.variants.map(variant => new ProductVariantBuilder({ id: variant.id })
         .displayName([{ language: this.options.language, value: variant.title }])
-        .salesPrice(variantPrices[product.id][variant.id].map(price => ({ amount: price.calculated_amount, currency: price.currency_code })))
-        .listPrice(variantPrices[product.id][variant.id].map(price => ({ amount: price.original_amount, currency: price.currency_code })))
+        .salesPrice(variantPrices[product.id][variant.id]
+          ?.map(price => ({ amount: price.calculated_amount, currency: price.currency_code })) ?? [])
+        .listPrice(variantPrices[product.id][variant.id]
+          ?.map(price => ({ amount: price.original_amount, currency: price.currency_code })) ?? [])
         .data({
           'Sku': variant.sku
             ? DataValueFactory.string(variant.sku)
