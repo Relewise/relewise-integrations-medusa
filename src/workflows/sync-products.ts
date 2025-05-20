@@ -16,19 +16,10 @@ export const syncProductsWorkflow = createWorkflow({
             "*",
             "sales_channels.*",
             "variants.*",
-            "variants.prices.*",
-            "variants.calculated_price.*",
             "variants.inventory_items.*",
             "images.*",
             "categories.*",
           ],
-          context: {
-            variants: {
-              calculated_price: QueryContext({
-                currency_code: "eur",
-              }),
-            },
-          },
         }) as { data: ExtendedMedusaProduct[] };
         
       const variantPrices = getAllProductsWithCalculatedPricesStep();

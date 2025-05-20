@@ -9,7 +9,7 @@ import {
   }: SubscriberArgs) {
     const logger = container.resolve("logger");
     
-    logger.info("Starting product sync with Relewise");
+    logger.info("Starting product sync to Relewise");
   
     const workflow = await syncProductsWorkflow(container).run();
   

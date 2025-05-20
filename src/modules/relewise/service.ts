@@ -2,7 +2,7 @@ import { Logger } from "@medusajs/framework/types";
 import { Integrator, ProductAdministrativeActionBuilder, ProductUpdateBuilder, ProductVariantBuilder } from "@relewise/integrations"
 import { DataValueFactory, Trackable } from "@relewise/client"
 import { ExtendedMedusaProduct } from "../../types/ProductWithVariantsAndPricesDTO";
-import { ProductVariantPrices } from "../../workflows/steps/get-all-products-with-calculated-prices";
+import { ProductVariantPrices } from "../../types/ProductVariantPrices";
 
 type RelewiseOptions = {
   datasetId: string;
@@ -64,7 +64,7 @@ class RelewiseService {
           : null,
         'IsGiftcard': DataValueFactory.boolean(product.is_giftcard),
         'Status': DataValueFactory.string(product.status),
-        'Thumbnail': product.thumbnail
+        'ThumbnailUrl': product.thumbnail
           ? DataValueFactory.string(product.thumbnail)
           : null,
         'Weight': product.weight
@@ -111,7 +111,7 @@ class RelewiseService {
         'CreatedAt': DataValueFactory.string(typeof product.created_at === 'string' ? product.created_at : product.created_at.toISOString()),
         'UpdatedAt': DataValueFactory.string(new Date(product.updated_at).toISOString()),
         'SalesChannels': DataValueFactory.stringCollection(product.sales_channels.map(x => x.name)),
-        'Images': DataValueFactory.stringCollection(product.images.map(x => x.url)),
+        'ImageUrls': DataValueFactory.stringCollection(product.images.map(x => x.url)),
         'OnSale': DataValueFactory.boolean(Object.entries(variantPrices[product.id]).some(x => x[1]
           .some(y => y.calculated_amount < y.original_amount)) ?? false),
       })

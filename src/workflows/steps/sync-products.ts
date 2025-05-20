@@ -2,7 +2,7 @@ import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 import RelewiseService from "../../modules/relewise/service"
 import { RELEWISE_MODULE } from "../../modules/relewise"
 import { ExtendedMedusaProduct } from "../../types/ProductWithVariantsAndPricesDTO"
-import { ProductVariantPrices } from "./get-all-products-with-calculated-prices"
+import { ProductVariantPrices } from "../../types/ProductVariantPrices"
 
 export type SyncProductsStepInput = {
     products: ExtendedMedusaProduct[]

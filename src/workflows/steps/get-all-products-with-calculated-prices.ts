@@ -3,6 +3,7 @@ import { ContainerRegistrationKeys, Modules, QueryContext } from "@medusajs/fram
 import { StepResponse } from "@medusajs/workflows-sdk"
 import { RELEWISE_MODULE } from "../../modules/relewise"
 import RelewiseService from "../../modules/relewise/service"
+import { ProductVariantPrices } from "../../types/ProductVariantPrices"
 
 export const getAllProductsWithCalculatedPricesStep = createStep(
   "get-all-products-with-calculated-prices",
@@ -72,9 +73,3 @@ type QueryResultEntity = {
     }
   }>
 }
-
-export type ProductVariantPrices = Record<string, Record<string, {
-      currency_code: string
-      calculated_amount: number
-      original_amount: number
-    }[]>>
