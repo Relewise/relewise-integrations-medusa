@@ -112,6 +112,11 @@ class RelewiseService {
         'SalesChannels': DataValueFactory.stringCollection(product.sales_channels.map(x => x.name)),
         'Images': DataValueFactory.stringCollection(product.images.map(x => x.url)),
       })
+      .categoryPaths(b => {
+        product.categories?.forEach(category => {
+          b.path(p => p.category({ id: category.id, displayName: [{ language: this.options.language, value: category.name }]}))
+        });
+      })
       .variants(product.variants.map(variant => new ProductVariantBuilder({ id: variant.id })
         .displayName([{ language: this.options.language, value: variant.title }])
         .salesPrice(variantPrices[product.id][variant.id].map(price => ({ amount: price.calculated_amount, currency: price.currency_code })))
