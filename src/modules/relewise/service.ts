@@ -112,6 +112,8 @@ class RelewiseService {
         'UpdatedAt': DataValueFactory.string(new Date(product.updated_at).toISOString()),
         'SalesChannels': DataValueFactory.stringCollection(product.sales_channels.map(x => x.name)),
         'Images': DataValueFactory.stringCollection(product.images.map(x => x.url)),
+        'OnSale': DataValueFactory.boolean(Object.entries(variantPrices[product.id]).some(x => x[1]
+          .some(y => y.calculated_amount < y.original_amount)) ?? false),
       })
       .categoryPaths(b => {
         product.categories?.forEach(category => {
@@ -166,6 +168,8 @@ class RelewiseService {
           'Barcode': variant.barcode
             ? DataValueFactory.string(variant.barcode)
             : null,
+          'OnSale': DataValueFactory.boolean(variantPrices[product.id][variant.id]?.map(x => x)
+            .some(y => y.calculated_amount < y.original_amount) ?? false)
         })
         .build()));
 
