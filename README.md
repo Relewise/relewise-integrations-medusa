@@ -31,7 +31,7 @@ Fill the `RELEWISE_DATASET_ID`, `RELEWISE_API_KEY`, `RELEWISE_SERVER_URL` with y
 
 Configure the plugin by adding it to `plugins` in your `medusa-config.ts`.
 
-Note that providing a language is also required!
+Note that providing a language and a list of currenies is also required!
 
 ```W
 module.exports = defineConfig({
@@ -43,7 +43,8 @@ module.exports = defineConfig({
         datasetId: process.env.RELEWISE_DATASET_ID!,
         apiKey: process.env.RELEWISE_API_KEY!,
         serverUrl: process.env.RELEWISE_SERVER_URL!,
-        language: "en"
+        language: "en",
+        currencies: ["eur", "usd"]
       },
     },
   ],

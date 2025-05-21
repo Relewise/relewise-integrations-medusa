@@ -30,7 +30,7 @@ npx medusa plugin:add @relewise/medusa
 
 Remember to also add it to `plugins` in the `medusa-config.ts`.
 
-Note that providing a language is also required!
+Note that providing a language and a list of currenies is also required!
 
 ```W
 module.exports = defineConfig({
@@ -42,7 +42,8 @@ module.exports = defineConfig({
         datasetId: process.env.RELEWISE_DATASET_ID!,
         apiKey: process.env.RELEWISE_API_KEY!,
         serverUrl: process.env.RELEWISE_SERVER_URL!,
-        language: "en"
+        language: "en",
+        currencies: ["eur", "usd"]
       },
     },
   ],

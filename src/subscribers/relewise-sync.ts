@@ -9,11 +9,11 @@ import {
   }: SubscriberArgs) {
     const logger = container.resolve("logger");
     
-    logger.info("Starting product indexing...");
+    logger.info("Starting product sync to Relewise");
   
     const workflow = await syncProductsWorkflow(container).run();
   
-    logger.info(`Successfully synced ${workflow.result.products.length} products to Relewise`);
+    logger.info(`Successfully synced ${workflow.result.products.data.length} products to Relewise`);
   }
   
   export const config: SubscriberConfig = {

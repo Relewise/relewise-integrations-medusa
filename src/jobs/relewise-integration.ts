@@ -8,7 +8,7 @@ export default async function relewiseIntegrationJob(container: MedusaContainer)
   
   const workflow = await syncProductsWorkflow(container).run();
   
-  logger.info(`Successfully synced ${workflow.result.products.length} products to Relewise`);
+  logger.info(`Successfully synced ${workflow.result.products.data.length} products to Relewise`);
 }
 
 export const config = {
